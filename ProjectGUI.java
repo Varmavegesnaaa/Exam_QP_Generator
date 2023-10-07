@@ -19,9 +19,6 @@ class ListNode{
         this.next=null;
     }
 }
-
-
-
 class ProjectGUI {
     static int count;
     JLabel q,marks; 
@@ -121,6 +118,22 @@ class ProjectGUI {
             qpanel.add(next);
             qpanel.add(prev);
         }
+        if(!qpaper.given.isEmpty())
+        {
+            if(qpaper.given.equals(qpaper.opt[0]))
+            {
+                opt1.setSelected(true);
+            }else if(qpaper.given.equals(qpaper.opt[1]))
+            {
+                opt2.setSelected(true);
+            }else if(qpaper.given.equals(qpaper.opt[2]))
+            {
+                opt3.setSelected(true);
+            }else if(qpaper.given.equals(qpaper.opt[3]))
+            {
+                opt4.setSelected(true);
+            }
+        }
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 if(opt1.isSelected()){
@@ -157,6 +170,18 @@ class ProjectGUI {
         });
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+	if(opt1.isSelected()){
+                    qpaper.given=qpaper.opt[0];
+                }
+                else if(opt2.isSelected()){
+                    qpaper.given=qpaper.opt[1];
+                }
+                else if(opt3.isSelected()){
+                    qpaper.given=qpaper.opt[2];
+                }
+                else if(opt4.isSelected()){
+                    qpaper.given=qpaper.opt[3];
+                }
                 generatemarks();
             }
         });
