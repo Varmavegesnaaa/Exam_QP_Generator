@@ -23,7 +23,7 @@ class ListNode{
 
 
 class ProjectGUI {
-
+    static int count;
     JLabel q,marks; 
     JRadioButton opt1, opt2, opt3,opt4;
     JButton start,prev, next, submit;
@@ -47,12 +47,13 @@ class ProjectGUI {
         });
     }
     static ListNode createQuestions(){
-        String[] questions={"Who Invented python?", "Who is tejasree", "who invented Love"}; 
-        String[][] options={{"charless babbage","modi", "jagan", "none"},{ "a teacher", "a sadist", "a physco", "not a human"}, {"pavan", "lovers", "romeo", "chilika ran"}};
-        String[] answers={options[0][3],options[1][1],options[2][3]};
+        String[] questions={"Who Invented python?", "Who is tejasree", "who invented Love","What is Ravi Teja's Hit movie?"}; 
+        String[][] options={{"charless babbage","modi", "jagan", "none"},{ "a teacher", "a sadist", "a physco", "not a human"}, {"pavan", "lovers", "romeo", "chilika ran"},{"Idiot","Kick","Vikramarkudu","Krack"}};
+        String[] answers={options[0][3],options[1][1],options[2][3],options[3][1]};
         ListNode temp, newnode, qpaper;
         temp=new ListNode(questions[0], options[0], answers[0]);
         qpaper=temp;
+        count=questions.length;
         for(int i=1;i<questions.length; i++){
             newnode=new ListNode(questions[i], options[i], answers[i]);
             temp.next = newnode;
@@ -168,7 +169,7 @@ class ProjectGUI {
             }
             qpaper = qpaper.next;
         }
-        marks = new JLabel(Integer.toString(res)+"/3");
+        marks = new JLabel(Integer.toString(res)+"/"+Integer.toString(count));
         marks.setFont(new Font("Times New Roman",Font.BOLD,50));
         marks.setBounds(600,300,200,100);
         qpanel.removeAll();
