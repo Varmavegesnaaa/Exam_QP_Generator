@@ -190,7 +190,8 @@ class ProjectGUI {
         int res = 0;
         while(qpaper!=null){
             if(qpaper.given.equals(qpaper.ans)){
-                res++;
+                	res++;
+	System.out.println(qpaper.ans);
             }
             qpaper = qpaper.next;
         }
