@@ -3,6 +3,10 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.*;
+import java.io.*;
 
 class ListNode{
     ListNode prev;
@@ -19,8 +23,50 @@ class ListNode{
         this.next=null;
     }
 }
-class ProjectGUI {
-    static int count;
+class Questions{
+    static ListNode qpaper;
+    Questions(){
+        try {
+			//Class.forName("com.mysql.jdbc.Driver");
+			//Class.forName("com.mysql.cj.jdbc.Driver");
+            ListNode temp, newnode;
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/exam", "root", "");
+			Statement stmt = con.createStatement();
+			String sql = "select * from exam";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+                String questions = rs.getString("questions");
+                String[] options = {
+                        rs.getString("option1"),
+                        rs.getString("option2"),
+                        rs.getString("option3"),
+                        rs.getString("option4")
+                };
+                String answers = rs.getString("answer");
+
+                newnode = new ListNode(questions, options, answers);
+                if (qpaper == null) {
+                    qpaper = newnode;
+                } else {
+                    temp = qpaper;
+                    while (temp.next != null) {
+                        temp = temp.next;
+                    }
+                    temp.next = newnode;
+                    newnode.prev = temp;
+                }
+            }
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+    }
+    ListNode createQuestions(){
+        return qpaper;
+    }
+}
+class ProjectGUI extends Questions {
+    int count;
     JLabel q,marks; 
     JRadioButton opt1, opt2, opt3,opt4;
     JButton start,prev, next, submit;
@@ -42,22 +88,6 @@ class ProjectGUI {
                 generateqp(qpaper);
             }
         });
-    }
-    static ListNode createQuestions(){
-        String[] questions={"Who Invented python?", "Who is tejasree", "who invented Love","What is Ravi Teja's Hit movie?"}; 
-        String[][] options={{"charless babbage","modi", "jagan", "none"},{ "a teacher", "a sadist", "a physco", "not a human"}, {"pavan", "lovers", "romeo", "chilika ran"},{"Idiot","Kick","Vikramarkudu","Krack"}};
-        String[] answers={options[0][3],options[1][1],options[2][3],options[3][1]};
-        ListNode temp, newnode, qpaper;
-        temp=new ListNode(questions[0], options[0], answers[0]);
-        qpaper=temp;
-        count=questions.length;
-        for(int i=1;i<questions.length; i++){
-            newnode=new ListNode(questions[i], options[i], answers[i]);
-            temp.next = newnode;
-            newnode.prev=temp;
-            temp=temp.next;
-        }
-        return qpaper;
     }
     public void generateqp(ListNode qpaper){
         qpanel=new JPanel();
@@ -170,7 +200,7 @@ class ProjectGUI {
         });
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-	if(opt1.isSelected()){
+	            if(opt1.isSelected()){
                     qpaper.given=qpaper.opt[0];
                 }
                 else if(opt2.isSelected()){
@@ -186,16 +216,26 @@ class ProjectGUI {
             }
         });
     }
+    public int calculateQuestions(){
+        ListNode temp = qpaper;
+        int c=0;
+        while(temp!=null){
+            c++;
+            temp = temp.next;
+        }
+        return c;
+    }
     public void generatemarks(){
         int res = 0;
-        while(qpaper!=null){
-            if(qpaper.given.equals(qpaper.ans)){
-                	res++;
-	System.out.println(qpaper.ans);
+        ListNode temp = qpaper;
+        while(temp!=null){
+            if(temp.given.equals(temp.ans)){
+                res++;
+	        // System.out.println(qpaper.ans);
             }
-            qpaper = qpaper.next;
+            temp = temp.next;
         }
-        marks = new JLabel(Integer.toString(res)+"/"+Integer.toString(count));
+        marks = new JLabel(Integer.toString(res)+"/"+Integer.toString(calculateQuestions()));
         marks.setFont(new Font("Times New Roman",Font.BOLD,50));
         marks.setBounds(600,300,200,100);
         qpanel.removeAll();
