@@ -1,14 +1,37 @@
 import java.sql.*;
 import java.io.*;
+import java.util.*;
 
 public class DBExam {
     public static void main(String[] args) {
         String url = "jdbc:mysql://localhost/exam";
         String user = "root";
         String password ="";
-        String[] questions={"'Who Invented python?'", "'Who is tejasree'", "'who invented Love'","'What is Ravi Teja Hit movie?'"}; 
-        String[][] options={{"'charless babbage'","'modi'", "'jagan'", "'none'"},{ "'a teacher'", "'a sadist'", "'a physco'", "'not a human'"}, {"'pavan'", "'lovers'", "'romeo'", "'chilika ran'"},{"'Idiot'","'Kick'","'Vikramarkudu'","'Krack'"}};
-        String[] answers={options[0][3],options[1][1],options[2][3],options[3][1]};
+        int n,in=0;
+        Scanner sc = new Scanner(System.in);        
+        System.out.println("Enter no.of Questions");
+        n = sc.nextInt();
+
+        String[] questions = new String[n];
+        String[][] options = new String[n][4];
+        String[] answers = new String[n];
+
+        String take="",oin="";
+        for(int i=0;i<n;i++){
+            System.out.println("Enter Question "+(i+1));
+            // qin = sc.nextLine();
+            oin = sc.nextLine();
+            take = sc.nextLine();
+            questions[i] = "'"+take+"'";
+            System.out.println("Enter Options for Question "+(i+1));
+            for(int j=0;j<4;j++){
+                oin = sc.nextLine();
+                options[i][j] = "'"+oin+"'";
+            }
+            System.out.println("Enter correct option for Question "+(i+1)+" (1,2,3,4)");
+            in = sc.nextInt();
+            answers[i] = options[i][in-1];
+        }
         try {
             int row=0;
         	//Class.forName("com.mysql.cj.jdbc.Driver");
