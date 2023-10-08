@@ -1,7 +1,5 @@
 import javax.swing.*;
-
 import java.awt.*;
-
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,8 +25,6 @@ class Questions{
     static ListNode qpaper;
     Questions(){
         try {
-			//Class.forName("com.mysql.jdbc.Driver");
-			//Class.forName("com.mysql.cj.jdbc.Driver");
             ListNode temp, newnode;
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/exam", "root", "");
 			Statement stmt = con.createStatement();
@@ -231,7 +227,6 @@ class ProjectGUI extends Questions {
         while(temp!=null){
             if(temp.given.equals(temp.ans)){
                 res++;
-	        // System.out.println(qpaper.ans);
             }
             temp = temp.next;
         }
